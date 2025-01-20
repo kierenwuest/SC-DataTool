@@ -33,18 +33,22 @@ def generate_soql_from_dbml(dbml_file_path):
 
 def query_objects(sf, soql_query):
     """
-    Queries Salesforce using the given SOQL query.
-    
+    Executes a SOQL query against the Salesforce API.
+
     Args:
-        sf: Salesforce connection object.
-        soql_query (str): The SOQL query string.
-    
+        sf (Salesforce): The Salesforce connection object.
+        soql_query (str): The SOQL query to execute.
+
     Returns:
-        list: List of records returned by the query.
+        list: The query result records.
+
+    Raises:
+        Exception: If the query fails or an error response is returned.
     """
     try:
-        result = sf.query(soql_query)
-        return result.get("records", [])
+        response = sf.query(soql_query)
+        if not response or 'records' not in response:
+            raise Exception(f"Invalid response structure: {response}")
+        return response['records']
     except Exception as e:
-        print(f"Error querying Salesforce: {e}")
-        return []
+        raise Exception(f"Error querying Salesforce: {e}")

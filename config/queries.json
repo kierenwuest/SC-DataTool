@@ -1,4 +1,0 @@
-{
-  "Account": "SELECT Id, Name FROM Account LIMIT 100",
-  "Contact": "SELECT Id, FirstName, LastName FROM Contact LIMIT 100"
-}
