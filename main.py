@@ -1,36 +1,59 @@
 import json
-from salesforce.auth import get_salesforce_connection
-from salesforce.queries import query_objects
-from sheets.manager import create_workbook
+import logging
 import os
+from salesforce.auth import get_salesforce_connection
+from salesforce.queries import query_objects, generate_soql_from_dbml
+from sheets.manager import create_workbook
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 def main():
-    # Load configuration and queries
-    with open("config/config.json") as config_file:
-        config = json.load(config_file)
+    try:
+        # Load configuration
+        logging.info("Loading configuration...")
+        with open("config/config.json") as config_file:
+            config = json.load(config_file)
 
-    with open("config/queries.json") as queries_file:
-        queries = json.load(queries_file)
+        # Parse .dbml file to generate SOQL queries
+        dbml_file_path = "config/SC-DataModel_Schema.dbml"
+        logging.info(f"Generating SOQL queries from {dbml_file_path} using PyDBML...")
+        queries = generate_soql_from_dbml(dbml_file_path)
 
-    # Authenticate with Salesforce
-    sf = get_salesforce_connection(config["org_alias"])
+        if not queries:
+            logging.error("No valid queries generated from the .dbml file.")
+            return
 
-    if not sf:
-        print("Failed to connect to Salesforce.")
-        return
+        # Authenticate with Salesforce
+        logging.info(f"Authenticating with Salesforce org {config['org_alias']}...")
+        sf = get_salesforce_connection(config["org_alias"])
 
-    # Query data for all objects
-    workbook_data = {}
-    for object_name, soql_query in queries.items():
-        data = query_objects(sf, soql_query)
-        if data:
-            workbook_data[object_name] = data
+        if not sf:
+            logging.error("Failed to connect to Salesforce.")
+            return
 
-    # Create and save the workbook
-    output_file = os.path.join(os.getcwd(), "SalesforceData.xlsx")
-    create_workbook(workbook_data, output_file)
+        # Query data for all objects
+        logging.info(f"Querying data from Salesforce org {config['org_alias']}...")
+        workbook_data = {}
+        for object_name, soql_query in queries.items():
+            try:
+                logging.info(f"Running query for {object_name}...")
+                data = query_objects(sf, soql_query)
+                if data:
+                    logging.info(f"Retrieved {len(data)} records for {object_name}.")
+                    workbook_data[object_name] = data
+                else:
+                    logging.warning(f"No data retrieved for {object_name}.")
+            except Exception as e:
+                logging.error(f"Error querying {object_name}: {e}")
 
-    print(f"Data saved to {output_file}")
+        # Create and save the workbook
+        output_file = os.path.join(os.getcwd(), f"{config['org_alias']}_SalesforceData.xlsx")
+        logging.info("Creating workbook...")
+        create_workbook(workbook_data, output_file)
+        logging.info(f"Data saved to {output_file}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
     main()

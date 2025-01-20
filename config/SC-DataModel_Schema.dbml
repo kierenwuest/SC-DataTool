@@ -54,8 +54,8 @@ Table Standard.Account {
   s_c__Location_State__c string [note: 'Defines the State component of this Locations Address.']
   s_c__Location_Street__c string [note: 'Defines the Street component of this Locations Address.']
   s_c__Location_Website__c url [note: 'This Locations website address.']
-  s_c__Location__Latitude__s double []
-  s_c__Location__Longitude__s double []
+  s_c__Location__Latitude__s double 
+  s_c__Location__Longitude__s double 
   s_c__Location__c location [note: 'Defines the latitude and longitude of this Location.']
   s_c__Logo_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id, note: 'Image to use when showing this account as a Brand in your store']
   s_c__Membership_Id__c integer [ref: > StoreConnect.s_c__Membership__c.Id, note: 'Membership that this Account belongs to. Can be used to give special pricing or access to restricted pages and articles']
@@ -66,8 +66,8 @@ Table Standard.Account {
   s_c__Supplier__c boolean [not null, note: 'If enabled, indicates this Account is a supplier of products in your store']
   s_c__Tax_Entity_Code__c Account.s_c__Tax_Entity_Code__c_picklist [note: 'Identifies the tax exemption status to be applied to the orders']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Account_Points_Balance__c double []
-  s_c__Account_Credit_Balance__c currency []
+  s_c__Account_Points_Balance__c double 
+  s_c__Account_Credit_Balance__c currency 
 }
 
 
@@ -236,8 +236,8 @@ Table Standard.Order {
   s_c__Device_Type__c string [note: 'This is the device type used by the customer']
   s_c__Ip_Address__c string [note: 'This is the IP Address of the customer']
   s_c__Language__c string [note: 'This is the the system language of the customer']
-  s_c__Location__Latitude__s double []
-  s_c__Location__Longitude__s double []
+  s_c__Location__Latitude__s double 
+  s_c__Location__Longitude__s double 
   s_c__Location__c location [note: 'This is the latitude and longitude of the customer']
   s_c__POS_Order_Type__c string [note: 'The type of this Order, for example Layby']
   s_c__Platform__c string [note: 'This is the computer platform of the customer']
@@ -258,7 +258,7 @@ Table Standard.Order {
   s_c__Total_Taxes__c double [note: '[Deprecated] Use Total_Tax_Amount__c instead']
   s_c__User_Agent__c string [note: 'This is the customers browser user agent string']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Payment_Link__c string []
+  s_c__Payment_Link__c string 
   s_c__Cart_Reference__c textarea [note: 'Used to link a web store Checkout session to its resulting Order']
 }
 
@@ -299,7 +299,7 @@ Table Standard.OrderItem {
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
   s_c__Is_List_Price_Tax_Inclusive__c boolean [not null]
   s_c__Is_Restricted_Product__c boolean [not null]
-  s_c__Order_Checkout_Step__c string []
+  s_c__Order_Checkout_Step__c string 
   s_c__Delivery_Day__c OrderItem.s_c__Delivery_Day__c_picklist [note: 'The selected delivery day of the week for this Order Item']
   s_c__Delivery_Start_Date__c date [note: 'The selected delivery start date for this Order Item']
   s_c__Delivery_Time__c string [note: 'The selected delivery time slot for this Order Item']
@@ -383,7 +383,7 @@ Table Standard.PricebookEntry {
   s_c__Percentage__c percent [note: 'The percentage value to add to an order total (after taxes and shipping) using this payment method.']
   s_c__Purchase_Points_Sale__c double [note: 'If set this will be used as the points price required to purchase this product']
   s_c__Purchase_Points__c double [note: 'The amount of points required to purchase this product. If blank and Can Purchase With Points is true, the Price Books Default Purchase Rate will be used to calculate the number of points required']
-  s_c__Restricted_Text__c string []
+  s_c__Restricted_Text__c string 
   s_c__Restricted__c boolean [not null]
   s_c__Sale_Price__c currency [note: 'If set this will be used as the amount users will be charged for the Product. If blank the Price field is used']
   s_c__Setup_Price__c currency [note: 'If set this will be used as the amount that will be billed at the start of the subscription term.']
@@ -529,7 +529,7 @@ Table Standard.Product2 {
   s_c__Supplier_Code__c string [unique, note: 'The Suppliers Internal Code for this Product']
   s_c__Support_Markdown__c textarea [note: 'How to get support for the product and what support is available.     You can use Markdown (https://www.markdownguide.org/) to format your text     and Liquid (https://help.getstoreconnect.com/documentation/liquid) to     make it dynamic']
   s_c__Sync_To_Google__c boolean [not null, note: 'If enabled, this Product will be included in the Merchant Feeds']
-  s_c__Tax_Category_Code__c Product2.s_c__Tax_Category_Code__c_picklist []
+  s_c__Tax_Category_Code__c Product2.s_c__Tax_Category_Code__c_picklist 
   s_c__Tax_Code__c string [note: 'Defines tax code for this product. Primarily set for third party tax services']
   s_c__Track_Inventory__c boolean [not null, note: 'If enabled the system will track the inventory levels of this Product']
   s_c__UPC__c string [unique, note: 'This is the UPC, EAN etc']
@@ -565,7 +565,7 @@ Table Standard.User {
   s_c__Assisted_By_Name__c string [note: 'A display name for this User for the "Were you assisted to make this purchase?" dropdown in the checkout. If blank this User will not appear in the list.']
   s_c__PIN__c string [note: 'An optional PIN this User can use to log into a POS device']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__ProductSetupUserSettings__c textarea []
+  s_c__ProductSetupUserSettings__c textarea 
 }
 
 
@@ -614,7 +614,7 @@ Table StoreConnect.s_c__Account_Credit__c {
   s_c__Opening_Balance__c currency [not null, note: 'Specify the initial value of this Account Credit']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null, note: 'Specify the Store that this Account Credit belongs to']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
-  s_c__Current_Balance__c currency []
+  s_c__Current_Balance__c currency 
 }
 
 
@@ -752,7 +752,7 @@ Table StoreConnect.s_c__Article__c {
   s_c__Title__c string [not null, note: 'The title of the article.']
   s_c__Unique_Store_Path__c string [unique]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Preview_On_Site__c string []
+  s_c__Preview_On_Site__c string 
   s_c__Search_Keywords__c textarea [note: 'Line-separated list of keywords to improve relevance in article search results']
 }
 
@@ -769,7 +769,7 @@ Table StoreConnect.s_c__Articles_Article_Categories__c {
   Name string [not null]
   s_c__Article_Id__c integer [ref: > StoreConnect.s_c__Article__c.Id, not null, note: 'The related Content Article']
   s_c__Category_Id__c integer [ref: > StoreConnect.s_c__Article_Category__c.Id, not null, note: 'The Article Categories that this article is in']
-  s_c__Position__c double []
+  s_c__Position__c double 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -788,10 +788,10 @@ Table StoreConnect.s_c__Attendee__c {
   s_c__Attendance_Verified_By__c integer [ref: > Standard.User.Id]
   s_c__Attended__c boolean [not null, note: 'Check this if the Contact attended the Booking']
   s_c__Contact_Id__c integer [ref: > Standard.Contact.Id]
-  s_c__Email__c email []
-  s_c__First_Name__c string []
-  s_c__Last_Name__c string []
-  s_c__Phone__c phone []
+  s_c__Email__c email 
+  s_c__First_Name__c string 
+  s_c__Last_Name__c string 
+  s_c__Phone__c phone 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your store.']
 }
 
@@ -817,7 +817,7 @@ Table StoreConnect.s_c__Authentication_Provider__c {
   s_c__Client_Id__c string [note: 'Authentication Provider Client ID']
   s_c__Client_Secret__c string [note: 'The Client Secret provided by your authentication provider']
   s_c__Provider_URL__c url [note: 'The URL from the Authentication Provider for authentication requests']
-  s_c__Provider__c s_c__Authentication_Provider__c.s_c__Provider__c_picklist []
+  s_c__Provider__c s_c__Authentication_Provider__c.s_c__Provider__c_picklist 
   s_c__Reset_Password_URL__c url [note: 'The URL from the Provider to be used for the Reset Password flow']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null, note: 'The Store using this Authentication Provider']
   s_c__Api_Options__c textarea [note: 'Additional API Options required for your authentication provider per the help documentation']
@@ -883,16 +883,16 @@ Table StoreConnect.s_c__Bookable_Location__c {
 
   Id id [not null]
   s_c__Active__c boolean [not null, note: 'Uncheck to prevent bookings for this location']
-  s_c__Address1__c string []
-  s_c__Address2__c string []
-  s_c__City__c string []
+  s_c__Address1__c string 
+  s_c__Address2__c string 
+  s_c__City__c string 
   s_c__Country_Id__c integer [ref: > StoreConnect.s_c__Country__c.Id]
   s_c__Display_Name__c string [note: 'The name of the Bookable Location to show in the Store. If this is blank, Bookable Location Name will be used']
   s_c__Information_Markdown__c textarea [note: 'Information about this Bookable Location Use Markdown to format your text. Find out more at https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
-  s_c__State__c string []
+  s_c__State__c string 
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null]
   s_c__Virtual__c boolean [not null, note: 'Check this if the Bookable Location is not a physical location']
-  s_c__Zip_Code__c string []
+  s_c__Zip_Code__c string 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your store.']
 }
 
@@ -917,7 +917,7 @@ Table StoreConnect.s_c__Booking__c {
   s_c__Account_Id__c integer [ref: > Standard.Account.Id]
   s_c__Contact_Id__c integer [ref: > Standard.Contact.Id]
   s_c__Order_Item_Id__c integer [ref: > Standard.OrderItem.Id]
-  s_c__Status__c s_c__Booking__c.s_c__Status__c_picklist []
+  s_c__Status__c s_c__Booking__c.s_c__Status__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your store.']
 }
 
@@ -932,15 +932,15 @@ Table StoreConnect.s_c__Change_Event__c {
 
   Id id [not null]
   Name string [not null]
-  s_c__Changed_Fields__c textarea []
+  s_c__Changed_Fields__c textarea 
   s_c__Event_Type__c string [not null]
-  s_c__Message__c textarea []
-  s_c__Metadata__c textarea []
+  s_c__Message__c textarea 
+  s_c__Metadata__c textarea 
   s_c__Object_Name__c string [not null]
-  s_c__Object_Previous_Timestamp__c datetime []
-  s_c__Object_Sc_Id__c string []
-  s_c__Object_Sfid__c string []
-  s_c__Processed_At__c datetime []
+  s_c__Object_Previous_Timestamp__c datetime 
+  s_c__Object_Sc_Id__c string 
+  s_c__Object_Sfid__c string 
+  s_c__Processed_At__c datetime 
   s_c__Source__c string [not null]
   s_c__Status__c string [not null]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
@@ -980,12 +980,12 @@ Table StoreConnect.s_c__Collection_Point__c {
   s_c__Active__c boolean [not null, note: 'Is this collection point active']
   s_c__Description__c textarea [note: 'Additional markdown enabled description for this collection point']
   s_c__Display_Name__c string [note: 'The name shown to the customer, if blank, the name of the Collection Point is used instead']
-  s_c__Geolocation__Latitude__s double []
-  s_c__Geolocation__Longitude__s double []
-  s_c__Geolocation__c location []
+  s_c__Geolocation__Latitude__s double 
+  s_c__Geolocation__Longitude__s double 
+  s_c__Geolocation__c location 
   s_c__Lead_Time_Duration__c double [not null, note: 'The amount of time you need to get the order ready. When combined with Lead Time Units it gives you a combined value such as "1 hour" or "2 days". Set as "0" for no lead time.']
   s_c__Lead_Time_Units__c s_c__Collection_Point__c.s_c__Lead_Time_Units__c_picklist [not null]
-  s_c__Phone__c phone []
+  s_c__Phone__c phone 
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null, note: 'Indicates that this Collection Point should only be offered for this Store']
   s_c__Zone_Id__c integer [ref: > StoreConnect.s_c__Zone__c.Id, note: 'Indicates that this Collection Point should only be offered for this Zone']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
@@ -1075,22 +1075,22 @@ Table StoreConnect.s_c__Content_Block__c {
   }
 
   Id id [not null]
-  s_c__Alignment__c s_c__Content_Block__c.s_c__Alignment__c_picklist []
+  s_c__Alignment__c s_c__Content_Block__c.s_c__Alignment__c_picklist 
   s_c__Content_Markdown__c textarea [note: 'This is the main text content of the block.     Use Markdown or HTML to format your text. Find out more at     https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
   s_c__Document_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__File_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__Identifier__c string [unique, note: 'The identifier is used for the front end of your store     to identify this content block within the pages in special     cases. Changing this could have unintended consequences     on your site.']
   s_c__Image_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
-  s_c__Layout_Style__c s_c__Content_Block__c.s_c__Layout_Style__c_picklist []
-  s_c__Link_Label__c string []
-  s_c__Link_Target__c string []
+  s_c__Layout_Style__c s_c__Content_Block__c.s_c__Layout_Style__c_picklist 
+  s_c__Link_Label__c string 
+  s_c__Link_Target__c string 
   s_c__Media_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__Pull_Text_Markdown__c textarea [note: 'The content block pull text call to action.  You can use Markdown     (https://www.markdownguide.org/) to format the heading and Liquid     (https://help.getstoreconnect.com/documentation/liquid) to     make it dynamic.']
-  s_c__Sub_Type__c s_c__Content_Block__c.s_c__Sub_Type__c_picklist []
-  s_c__Subtitle__c string []
+  s_c__Sub_Type__c s_c__Content_Block__c.s_c__Sub_Type__c_picklist 
+  s_c__Subtitle__c string 
   s_c__Summary_Markdown__c textarea [note: 'The content block summary.     Use Markdown or HTML to format your text. Find out more at     https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
   s_c__Template__c s_c__Content_Block__c.s_c__Template__c_picklist [not null, note: 'Determines the how the content is displayed for this content block']
-  s_c__Title__c string []
+  s_c__Title__c string 
   s_c__Video_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
@@ -1112,9 +1112,9 @@ Table StoreConnect.s_c__Content_Blocks_Articles__c {
   Name string [not null]
   s_c__Article_Id__c integer [ref: > StoreConnect.s_c__Article__c.Id, not null]
   s_c__Content_Block_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
-  s_c__Position__c double []
-  s_c__Tag__c string []
-  s_c__Usage_Type__c s_c__Content_Blocks_Articles__c.s_c__Usage_Type__c_picklist []
+  s_c__Position__c double 
+  s_c__Tag__c string 
+  s_c__Usage_Type__c s_c__Content_Blocks_Articles__c.s_c__Usage_Type__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -1134,9 +1134,9 @@ Table StoreConnect.s_c__Content_Blocks_Children__c {
   Name string [not null]
   s_c__Child_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
   s_c__Parent_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
-  s_c__Position__c double []
-  s_c__Tag__c string []
-  s_c__Usage_Type__c s_c__Content_Blocks_Children__c.s_c__Usage_Type__c_picklist []
+  s_c__Position__c double 
+  s_c__Tag__c string 
+  s_c__Usage_Type__c s_c__Content_Blocks_Children__c.s_c__Usage_Type__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -1157,9 +1157,9 @@ Table StoreConnect.s_c__Content_Blocks_Pages__c {
   Name string [not null]
   s_c__Page_Id__c integer [ref: > StoreConnect.s_c__Page__c.Id, not null]
   s_c__Content_Block_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
-  s_c__Position__c double []
-  s_c__Tag__c string []
-  s_c__Usage_Type__c s_c__Content_Blocks_Pages__c.s_c__Usage_Type__c_picklist []
+  s_c__Position__c double 
+  s_c__Tag__c string 
+  s_c__Usage_Type__c s_c__Content_Blocks_Pages__c.s_c__Usage_Type__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -1179,9 +1179,9 @@ Table StoreConnect.s_c__Content_Blocks_Product_Categories__c {
   Name string [not null]
   s_c__Category_Id__c integer [ref: > StoreConnect.s_c__Product_Category__c.Id, not null]
   s_c__Cntnt_Blk_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
-  s_c__Position__c double []
-  s_c__Tag__c string []
-  s_c__Usage_Type__c s_c__Content_Blocks_Product_Categories__c.s_c__Usage_Type__c_picklist []
+  s_c__Position__c double 
+  s_c__Tag__c string 
+  s_c__Usage_Type__c s_c__Content_Blocks_Product_Categories__c.s_c__Usage_Type__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -1205,10 +1205,10 @@ Table StoreConnect.s_c__Content_Blocks_Products__c {
   Id id [not null]
   Name string [not null]
   s_c__Content_Block_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, not null]
-  s_c__Position__c double []
+  s_c__Position__c double 
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id]
-  s_c__Tag__c string []
-  s_c__Usage_Type__c s_c__Content_Blocks_Products__c.s_c__Usage_Type__c_picklist []
+  s_c__Tag__c string 
+  s_c__Usage_Type__c s_c__Content_Blocks_Products__c.s_c__Usage_Type__c_picklist 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -1562,7 +1562,7 @@ Table StoreConnect.s_c__Data_Feed__c {
   s_c__Unique_Store_Filename__c string [unique]
   s_c__Username__c string [note: 'The username used for this export, leave blank for no username requirement.']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Download_Export_Link__c string []
+  s_c__Download_Export_Link__c string 
 }
 
 
@@ -1664,27 +1664,27 @@ Table StoreConnect.s_c__Discount__c {
   Id id [not null]
   s_c__Account_Id__c integer [ref: > Standard.Account.Id, note: 'The account eligible for this discount. If left blank, the discount applies to all accounts']
   s_c__Active__c boolean [not null, note: 'Set the discount as enabled or disabled']
-  s_c__Apply_Discount_To__c s_c__Discount__c.s_c__Apply_Discount_To__c_picklist []
+  s_c__Apply_Discount_To__c s_c__Discount__c.s_c__Apply_Discount_To__c_picklist 
   s_c__Behaviour_When_Applied__c s_c__Discount__c.s_c__Behaviour_When_Applied__c_picklist [not null, note: 'Stack with other discounts, replace any discount with the current one, or set an exact discounted price that supercedes all discounts']
   s_c__Brand_Id__c integer [ref: > Standard.Account.Id, note: 'The product brand that this Discount applies to']
   s_c__Calculation_Type__c s_c__Discount__c.s_c__Calculation_Type__c_picklist [not null]
   s_c__Discounted_Price__c currency [note: 'Discounted Price will set the products price for the duration of the discount. If a sale price is set for the products price book entry, the lowest value between the sale price and discounted price will be selected']
-  s_c__Ending_Date__c date []
+  s_c__Ending_Date__c date 
   s_c__Expires_At__c datetime [note: 'Set this to the exact time this discount will no longer be available. If this is in the future, please any change in time zone into account when setting.']
   s_c__Membership_Id__c integer [ref: > StoreConnect.s_c__Membership__c.Id, note: 'The Membership that this discount applies to']
-  s_c__Percent_Discount__c percent []
+  s_c__Percent_Discount__c percent 
   s_c__Pricebook_Id__c integer [ref: > Standard.Pricebook2.Id]
   s_c__Product_Category_Id__c integer [ref: > StoreConnect.s_c__Product_Category__c.Id, note: 'The Product Category object that this discount applies to, if set, this discount can only be used by this Product Category. If left as empty, it applies to all Product Categories']
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id]
   s_c__Qualifying_Quantity__c double [note: '[Future] This field is not currently in use. It is slated for use in future development.']
   s_c__Rebate_Amount__c currency [note: 'A rebate amount is the amount that the shopper is given in credit for their next order.']
-  s_c__Starting_Date__c date []
+  s_c__Starting_Date__c date 
   s_c__Starts_At__c datetime [note: 'Set this to the exact time this discount will become available. If this is in the future, please any change in time zone into account when setting.']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id]
-  s_c__Value_Discount__c currency []
+  s_c__Value_Discount__c currency 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
   s_c__Discounted_Points__c double [note: 'Discounted Price will set the products purchase points for the duration of the discount. If a sale points is set for the products price book entry, the lowest value between the sale points and discounted points will be selected']
-  s_c__Value_Discount_Points__c double []
+  s_c__Value_Discount_Points__c double 
 }
 
 
@@ -1698,10 +1698,10 @@ Table StoreConnect.s_c__Error_Definition__c {
 
   Id id [not null]
   Name string [not null]
-  s_c__Description__c textarea []
-  s_c__Key__c string []
-  s_c__Summary__c textarea []
-  s_c__Version__c string []
+  s_c__Description__c textarea 
+  s_c__Key__c string 
+  s_c__Summary__c textarea 
+  s_c__Version__c string 
 }
 
 
@@ -1964,12 +1964,12 @@ Table StoreConnect.s_c__Media__c {
   s_c__Large_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
   s_c__Medium_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
   s_c__Original_Image__c url [note: '[Deprecated] See Url__c instead']
-  s_c__Processed_At__c datetime []
-  s_c__Started_At__c datetime []
+  s_c__Processed_At__c datetime 
+  s_c__Started_At__c datetime 
   s_c__Thumbnail_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
   s_c__Url__c url [note: 'URL of the media uploaded']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Image_Preview__c string []
+  s_c__Image_Preview__c string 
 }
 
 
@@ -2014,7 +2014,7 @@ Table StoreConnect.s_c__Membership__c {
   }
 
   Id id [not null]
-  s_c__Display_Name__c string []
+  s_c__Display_Name__c string 
   s_c__Pricebook_Id__c integer [ref: > Standard.Pricebook2.Id, note: 'Provide a Price Book for members to give them special pricing. If an Account has an assigned Price Book then that Price Book will be used instead']
   s_c__Product2_Id__c integer [ref: > Standard.Product2.Id, note: 'Select a product that is used to purchase this membership']
   s_c__Product_Category_Id__c integer [ref: > StoreConnect.s_c__Product_Category__c.Id, note: 'Any of the product in this Product Category when purchased will assign this membership to the account of the contact who purchased it']
@@ -2046,7 +2046,7 @@ Table StoreConnect.s_c__Menu_Item__c {
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id, note: 'The product that will be linked to this menu item.']
   s_c__Show_Image__c boolean [not null, note: 'Display the image of the object being rendered or the image on this menu item.']
   s_c__Style_Class_Names__c string [note: 'CSS classes you would like to add to this menu item, separated by spaces.']
-  s_c__URL__c url []
+  s_c__URL__c url 
   s_c__Unique_Store_Identifier__c string [unique]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
@@ -2257,14 +2257,14 @@ Table StoreConnect.s_c__Outlet__c {
   s_c__Register_Code__c string [note: 'A secret passphrase used to connect Registers to this Outlet. Recommended to be 3 or more words separated by hyphens']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null]
   s_c__Quicklist_Product_Category_Id__c integer [ref: > StoreConnect.s_c__Product_Category__c.Id, note: 'The Product Category that POS devices on this Outlet will display on the main screen']
-  s_c__Address1__c string []
-  s_c__Address2__c string []
-  s_c__City__c string []
+  s_c__Address1__c string 
+  s_c__Address2__c string 
+  s_c__City__c string 
   s_c__Country_Id__c integer [ref: > StoreConnect.s_c__Country__c.Id]
-  s_c__Phone__c phone []
-  s_c__State__c string []
+  s_c__Phone__c phone 
+  s_c__State__c string 
   s_c__Tax_Number__c string [note: 'Tax number associated with this Outlet']
-  s_c__Zip_Code__c string []
+  s_c__Zip_Code__c string 
 }
 
 
@@ -2305,12 +2305,12 @@ Table StoreConnect.s_c__Page__c {
   s_c__Slug__c string [unique, note: 'A globally unique identifier for this page.']
   s_c__Social_Image_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id, note: 'The Image to show when the Page is shared on Social Media. If not provided, will use the Pages first image']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null]
-  s_c__Subtitle__c string []
-  s_c__Title__c string []
+  s_c__Subtitle__c string 
+  s_c__Title__c string 
   s_c__Unique_Store_Path__c string [unique]
   s_c__Visible__c boolean [not null, note: 'If false this page will not be able to be viewed on the site at all']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Preview_On_Site__c string []
+  s_c__Preview_On_Site__c string 
   s_c__Search_Keywords__c textarea [note: 'Line-separated list of keywords to improve relevance in page search results']
 }
 
@@ -2422,8 +2422,8 @@ Table StoreConnect.s_c__Permitted_Restricted_Item__c {
   s_c__Order_Item_Id__c integer [ref: > Standard.OrderItem.Id]
   s_c__Quantity__c double [not null, note: 'Full or partial quantity of the order product approved for purchase. Partial quantity refers to multiple permits used for approval.']
   s_c__Void__c boolean [not null, note: 'Determines whether the order product quantity is no longer valid due to order cancellation or removal of the order product. Quantity will be reinstated for purchase.']
-  s_c__Order_Number__c string []
-  s_c__Order_Status__c string []
+  s_c__Order_Number__c string 
+  s_c__Order_Status__c string 
 }
 
 
@@ -2438,15 +2438,15 @@ Table StoreConnect.s_c__Permitted_Restricted_Product__c {
   Id id [not null]
   Name string [not null]
   s_c__Account_Id__c integer [ref: > Standard.Account.Id]
-  s_c__Approved_From__c datetime []
+  s_c__Approved_From__c datetime 
   s_c__Approved_Quantity__c double [note: 'How many items of the product a buyer is allowed to purchase. If a number has not been set or set to 0, Unlimited should be checked.']
-  s_c__Approved_Until__c datetime []
+  s_c__Approved_Until__c datetime 
   s_c__Product_Category_Id__c integer [ref: > StoreConnect.s_c__Product_Category__c.Id]
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id]
   s_c__Purchased_Quantity__c double [note: 'The number of items of this product purchased by this buyer (Account).  Based on the quantity sum of all non-voided permitted restricted items.']
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id]
   s_c__Unlimited__c boolean [not null, note: 'If checked, a buyer is allowed to purchase an unlimited number of items of the product.']
-  s_c__Total_Item_Quantity__c double []
+  s_c__Total_Item_Quantity__c double 
   s_c__Is_Valid_Approval__c boolean [not null]
 }
 
@@ -2554,7 +2554,7 @@ Table StoreConnect.s_c__Product_Category__c {
   s_c__Display_Name__c string [note: 'Used in auto generated navigation bars and breadcrumbs instead of Name if present']
   s_c__Google_Product_Category__c string [note: 'The Google Product Category for this category. Ensure the category number is         at the start of the field, such as "2 - Animals & Pet Supplies > Pet Supplies"']
   s_c__Hide__c boolean [not null, note: 'Hide this category from showing in the navigation bar']
-  s_c__Import_ID__c string []
+  s_c__Import_ID__c string 
   s_c__Information_Markdown__c textarea [note: 'Information to display after all the products of a category page.     Use Markdown or HTML to format your text. Find out more at     https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
   s_c__Introduction_Markdown__c textarea [note: 'Information to display before all the products on a category page.     Use Markdown or HTML to format your text. Find out more at     https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
   s_c__Media_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id, note: 'The image to use for the category when featured']
@@ -2563,7 +2563,7 @@ Table StoreConnect.s_c__Product_Category__c {
   s_c__Meta_Title__c string [note: 'The content that appears within the meta title tag in the HEAD tag of the page']
   s_c__Parent_Count__c double [note: 'This is updated automatically to show the number of product categorys that this product category belongs to.']
   s_c__Path__c string [note: 'Specifies the relative path where the category will be accessible in the store']
-  s_c__Position__c double []
+  s_c__Position__c double 
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id, note: 'The primary / featured product for the category']
   s_c__Slug__c string [unique, note: '[Deprecated] Please use Path instead']
   s_c__Social_Image_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id, note: 'The Image to show when the Category is shared on Social Media. If not provided, will use the Categorys first image']
@@ -2620,11 +2620,11 @@ Table StoreConnect.s_c__Product_Media__c {
   Id id [not null]
   Name string [not null]
   s_c__Media_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id, not null]
-  s_c__Category__c s_c__Product_Media__c.s_c__Category__c_picklist []
+  s_c__Category__c s_c__Product_Media__c.s_c__Category__c_picklist 
   s_c__Position__c double [note: 'Lower numbers are shown first, records without numbers are sorted alphabetically by name.']
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Thumbnail_Preview__c string []
+  s_c__Thumbnail_Preview__c string 
 }
 
 
@@ -2661,7 +2661,7 @@ Table StoreConnect.s_c__Product_Supplier__c {
   s_c__Purchase_Price__c double [note: 'Defines the unit cost price of this item from this supplier']
   s_c__Units_Of_Measure__c double [note: 'Specifies quantity multiple used for ordering. For example, if a product needs to be ordered in multiples of 50, then this field should be 50']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
-  s_c__Supplier_Phone__c string []
+  s_c__Supplier_Phone__c string 
 }
 
 
@@ -2902,13 +2902,13 @@ Table StoreConnect.s_c__Promotion__c {
   s_c__Advertise__c boolean [not null, note: '[Future use] Include this promotion to the Advertised Promotions collection in liquid']
   s_c__Campaign_Id__c integer [ref: > Standard.Campaign.Id]
   s_c__Description__c textarea [note: 'Internal description of this promotion.']
-  s_c__Expires_At__c datetime []
-  s_c__Path__c string []
+  s_c__Expires_At__c datetime 
+  s_c__Path__c string 
   s_c__Promotion_Code__c string [not null, note: 'The promotion code that will be entered by the shopper during checkout in order to use this promotion.']
-  s_c__Starts_At__c datetime []
+  s_c__Starts_At__c datetime 
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, not null]
   s_c__Unique_Promotion_Code_Store__c string [unique]
-  s_c__Usage_Limit__c double []
+  s_c__Usage_Limit__c double 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -2961,10 +2961,10 @@ Table StoreConnect.s_c__Register_Shift__c {
   }
 
   Id id [not null]
-  s_c__End_Balance__c currency []
+  s_c__End_Balance__c currency 
   s_c__Ended_At__c datetime [note: 'The time this Shift ended']
   s_c__Register_Id__c integer [ref: > StoreConnect.s_c__Register__c.Id, not null]
-  s_c__Start_Balance__c currency []
+  s_c__Start_Balance__c currency 
   s_c__Started_At__c datetime [note: 'The time this Shift started']
   s_c__User_Id__c integer [ref: > Standard.User.Id]
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
@@ -3082,10 +3082,10 @@ Table StoreConnect.s_c__Route_Mapping__c {
 
   Id id [not null]
   Name string [not null]
-  s_c__From__c string []
+  s_c__From__c string 
   s_c__Status_Code__c s_c__Route_Mapping__c.s_c__Status_Code__c_picklist [not null]
   s_c__Store_Id__c integer [ref: > StoreConnect.s_c__Store__c.Id, note: 'Store where the route belongs']
-  s_c__To__c string []
+  s_c__To__c string 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
   s_c__sObject_Type__c string [note: 'Please ensure this field is populated with API names of sObjects only']
 }
@@ -3119,7 +3119,7 @@ Table StoreConnect.s_c__Setup_Configuration__c {
   }
 
   Id id [not null]
-  s_c__Text__c string []
+  s_c__Text__c string 
 }
 
 
@@ -3340,33 +3340,33 @@ Table StoreConnect.s_c__Stock_Location__c {
 
   Id id [not null]
   s_c__Active__c boolean [not null]
-  s_c__Address1__c string []
-  s_c__Address2__c string []
+  s_c__Address1__c string 
+  s_c__Address2__c string 
   s_c__Backorderable_Default__c boolean [not null, note: 'Is this stock location able to sell products with no available stock by default for new stock levels?']
-  s_c__City__c string []
+  s_c__City__c string 
   s_c__Click_And_Collect_Allowed__c boolean [not null, note: '[DEPRECATED] Use Online_Fulfillment_Options__c instead']
   s_c__Country_Id__c integer [ref: > StoreConnect.s_c__Country__c.Id, note: 'The country where the stock location is located']
   s_c__Days_To_Restock__c double [note: 'How many days it will take to restock this location from another location so a customer can collect their order?']
   s_c__Default__c boolean [not null]
-  s_c__Display_Name__c string []
+  s_c__Display_Name__c string 
   s_c__Fulfill_Online_Orders__c boolean [not null, note: '[DEPRECATED] Use Online_Fulfillment_Options__c instead']
-  s_c__Geolocation__Latitude__s double []
-  s_c__Geolocation__Longitude__s double []
-  s_c__Geolocation__c location []
+  s_c__Geolocation__Latitude__s double 
+  s_c__Geolocation__Longitude__s double 
+  s_c__Geolocation__c location 
   s_c__Hide_From_Search__c boolean [not null, note: 'Does this stock location hide its stock from the store by default for new stock levels?']
   s_c__Media_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__Online_Fulfillment_Options__c s_c__Stock_Location__c.s_c__Online_Fulfillment_Options__c_picklist [note: 'Determines how the stock location behaves for online orders']
-  s_c__Phone__c phone []
+  s_c__Phone__c phone 
   s_c__Priority__c boolean [not null, note: 'Is this stock location the priority location to ship from by default for new stock levels? Only one stock location can have this set as TRUE.']
   s_c__Propagate_All_Variants__c boolean [not null, note: 'Will create a stock level at this stock location for any new product. Will also create one for an edited product if one doesnt already exist.']
   s_c__Require_Stock_For_Pickup__c boolean [not null, note: 'Requires stock to be available at this location for click and collect to be offered at checkout.']
-  s_c__State__c string []
-  s_c__Stock_Import_Filename__c string []
-  s_c__Stock_Import_Id__c string []
-  s_c__Stock_Import_Last_Completed_At__c datetime []
-  s_c__Stock_Import_Last_Started_At__c datetime []
-  s_c__Website__c string []
-  s_c__Zip_Code__c string []
+  s_c__State__c string 
+  s_c__Stock_Import_Filename__c string 
+  s_c__Stock_Import_Id__c string 
+  s_c__Stock_Import_Last_Completed_At__c datetime 
+  s_c__Stock_Import_Last_Started_At__c datetime 
+  s_c__Website__c string 
+  s_c__Zip_Code__c string 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -3570,9 +3570,9 @@ Table StoreConnect.s_c__Store__c {
   s_c__Cash_Rounding_Rule__c s_c__Store__c.s_c__Cash_Rounding_Rule__c_picklist [note: 'The method to use when rounding cash payments on POS']
   s_c__Cash_Rounding_Unit__c currency [note: 'If set cash payments will be rounded to this unit on POS']
   s_c__Category_Placeholder_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
-  s_c__Code__c string []
+  s_c__Code__c string 
   s_c__Confirmation_Email_Template__c string [note: 'Enter the API name for the email template to be sent when confirming an email address']
-  s_c__Currency__c s_c__Store__c.s_c__Currency__c_picklist []
+  s_c__Currency__c s_c__Store__c.s_c__Currency__c_picklist 
   s_c__Custom_Styles__c textarea [note: 'Global over-ride of stores styles such as brand colour and background colour etc.']
   s_c__Default_Points_Usage__c s_c__Store__c.s_c__Default_Points_Usage__c_picklist [note: 'Indicates whether the Points created for this Store can be used on other Stores by default']
   s_c__Default__c boolean [not null]
@@ -3585,7 +3585,7 @@ Table StoreConnect.s_c__Store__c {
   s_c__Domain__c url [note: 'The full domain name of your store such as example.com. Do not include https:// or any trailing slashes or path']
   s_c__Email_Logo_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
   s_c__Enable_Quotations__c boolean [not null, note: 'This enables or disables Request Quotations feature workflow for products with Hide Price enabled. Also, make sure you enable the Quotation Requested Transactional Email under the Store Related List to send email when quotation is created.']
-  s_c__External_Javascripts__c textarea []
+  s_c__External_Javascripts__c textarea 
   s_c__Footer_Content_Block_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, note: 'The content block displayed as the stores footer']
   s_c__Footer_Menu_Id__c integer [ref: > StoreConnect.s_c__Menu__c.Id, note: 'The menu object displayed as the stores footer']
   s_c__Head_Content_Block_Id__c integer [ref: > StoreConnect.s_c__Content_Block__c.Id, note: 'The specified content block will be inserted as is just before the closing HEAD tag on every page on the website.']
@@ -3596,7 +3596,7 @@ Table StoreConnect.s_c__Store__c {
   s_c__Link__c url [note: 'The full link your store such as https://example.com/path']
   s_c__Locale__c s_c__Store__c.s_c__Locale__c_picklist [note: 'The locale for this Store']
   s_c__Logo_Id__c integer [ref: > StoreConnect.s_c__Media__c.Id]
-  s_c__Mail_From_Address__c email []
+  s_c__Mail_From_Address__c email 
   s_c__Meta_Description__c textarea [note: 'The content that appears within the meta description tag in the HEAD tag of the page']
   s_c__Meta_Keywords__c string [note: 'Comma separated list of keywords to appear within the meta keywords tag in the HEAD tag of the page']
   s_c__Meta_Title__c string [note: 'The content that appears within the meta title tag in the HEAD tag of the page']
@@ -3724,11 +3724,11 @@ Table StoreConnect.s_c__Sync_Summary__c {
 
   Id id [not null]
   Name string [not null]
-  s_c__Captured_At__c datetime []
+  s_c__Captured_At__c datetime 
   s_c__Latest_Row_Synced_At__c datetime [note: 'Timestamp of the latest object synced for this object type']
-  s_c__Object_Name__c string []
-  s_c__SC_Row_Count__c double []
-  s_c__SF_Row_Count__c double []
+  s_c__Object_Name__c string 
+  s_c__SC_Row_Count__c double 
+  s_c__SF_Row_Count__c double 
   s_c__Unique_Sync_Summary_Key__c string [unique, note: 'Do not change this value.']
 }
 
@@ -3847,7 +3847,7 @@ Table StoreConnect.s_c__Tax__c {
   s_c__Effective_From__c date [note: 'Effective start date for this Tax']
   s_c__Effective_To__c date [note: 'Effective end date for this Tax']
   s_c__Rate_Percentage__c double [note: 'Enter the Tax Rate in percentage. Eg: if the tax rate is `10%`         then the value should be `10`']
-  s_c__Rate__c double []
+  s_c__Rate__c double 
   s_c__Zone_Id__c integer [ref: > StoreConnect.s_c__Zone__c.Id, not null, note: 'Choose a Zone for the Tax']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
@@ -3969,7 +3969,7 @@ Table StoreConnect.s_c__Theme__c {
   Id id [not null]
   s_c__Imported__c boolean [not null, note: 'Indicates whether the Theme was imported.']
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
-  s_c__Preview_theme__c string []
+  s_c__Preview_theme__c string 
 }
 
 
@@ -3984,7 +3984,7 @@ Table StoreConnect.s_c__Trait_Category__c {
   Id id [not null]
   s_c__Display_As_Filter_Top_Level__c boolean [not null, note: 'If true, display each related trait type as a top-level filter in product search, with trait values as options. If false, display trait category as a top-level filter in product search, with trait types as options.']
   s_c__Display_Name__c string [not null]
-  s_c__Position__c double []
+  s_c__Position__c double 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -4049,7 +4049,7 @@ Table StoreConnect.s_c__Trait_Type__c {
   s_c__Display_As_Filter__c boolean [not null]
   s_c__Display_Name__c string [not null]
   s_c__Display_On_Product_Page__c boolean [not null]
-  s_c__Position__c double []
+  s_c__Position__c double 
   s_c__Trait_Category_Id__c integer [ref: > StoreConnect.s_c__Trait_Category__c.Id, not null]
   s_c__Unit__c s_c__Trait_Type__c.s_c__Unit__c_picklist [note: 'The unit of this Trait Type to aid in display on the website']
   s_c__Value_Type__c s_c__Trait_Type__c.s_c__Value_Type__c_picklist [not null]
@@ -4067,17 +4067,17 @@ Table StoreConnect.s_c__Trait_Value__c {
 
   Id id [not null]
   s_c__Checkbox__c boolean [not null]
-  s_c__Currency__c currency []
-  s_c__Date__c date []
-  s_c__Decimal__c double []
+  s_c__Currency__c currency 
+  s_c__Date__c date 
+  s_c__Decimal__c double 
   s_c__Display_Name__c string [not null]
-  s_c__Email__c email []
+  s_c__Email__c email 
   s_c__Long_Text_Area_Markdown__c textarea [note: 'Use Markdown or HTML to format your text. Find out more at     https://help.getstoreconnect.com/documentation/how-to-use-markdown.']
-  s_c__Number__c double []
-  s_c__Percent__c percent []
-  s_c__Text__c string []
+  s_c__Number__c double 
+  s_c__Percent__c percent 
+  s_c__Text__c string 
   s_c__Trait_Type_Id__c integer [ref: > StoreConnect.s_c__Trait_Type__c.Id, not null]
-  s_c__URL__c url []
+  s_c__URL__c url 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
 }
 
@@ -4091,7 +4091,7 @@ Table StoreConnect.s_c__Trait__c {
   }
 
   Id id [not null]
-  s_c__Description__c textarea []
+  s_c__Description__c textarea 
   s_c__Display_Name__c string [not null]
   s_c__Product_Id__c integer [ref: > Standard.Product2.Id]
   s_c__Trait_Category_Id__c integer [ref: > StoreConnect.s_c__Trait_Category__c.Id, not null]
@@ -4281,6 +4281,6 @@ Table StoreConnect.s_c__storeConnect_Setting__mdt {
   DeveloperName string [not null]
   MasterLabel string [not null]
   Language s_c__storeConnect_Setting__mdt.Language_picklist [not null]
-  s_c__Setting__c string []
+  s_c__Setting__c string 
   s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
 }
