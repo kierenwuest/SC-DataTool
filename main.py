@@ -1,3 +1,4 @@
+import argparse
 import json
 import logging
 import os
@@ -9,7 +10,29 @@ from sheets.manager import create_workbook
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
+
 def main():
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Salesforce Data Tool")
+    parser.add_argument(
+        "-e", "--extract", 
+        metavar="DBML_FILE", 
+        help="Extract data based on the provided .dbml file",
+        required=False
+    )
+    # Additional operations can be added here
+    # parser.add_argument("--upsert", metavar="DBML_FILE", help="Upsert operation", required=False)
+    args = parser.parse_args()
+
+    if args.extract:
+        dbml_file_path = os.path.join("config", args.extract)
+        if not os.path.exists(dbml_file_path):
+            logging.error(f"The file {dbml_file_path} does not exist.")
+            return
+    else:
+        logging.error("No operation specified. Use --extract with a .dbml file.")
+        return
+
     try:
         # Load configuration
         logging.info("Loading configuration...")
@@ -17,7 +40,6 @@ def main():
             config = json.load(config_file)
 
         # Parse .dbml file to generate SOQL queries
-        dbml_file_path = "config/SC-DataModel_Schema.dbml"
         logging.info(f"Generating SOQL queries from {dbml_file_path} using PyDBML...")
         queries = generate_soql_from_dbml(dbml_file_path)
 
@@ -53,7 +75,6 @@ def main():
                 ])
 
                 # Execute query
-                # logging.info(f"Running query for {object_name}...")
                 data = query_objects(sf, soql_query)
 
                 if data:
@@ -79,7 +100,6 @@ def main():
                     ])
             except Exception as e:
                 logging.error(f"Error querying {object_name}: {e}")
-                # Log error
                 log_data.append([
                     datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "Error querying Salesforce",
@@ -89,7 +109,10 @@ def main():
                 ])
 
         # Create and save the workbook
-        output_file = os.path.join(os.getcwd(), f"{config['org_alias']}_{datetime.now().strftime('%Y-%m-%d')}_Data.xlsx")
+        # Extract the base name of the .dbml file without the extension
+        dbml_base_name = os.path.splitext(os.path.basename(args.extract))[0]
+        # Create and save the workbook with the constructed filename
+        output_file = os.path.join(os.getcwd(), f"{config['org_alias']}_{datetime.now().strftime('%Y-%m-%d')}_{dbml_base_name}.xlsx")
         logging.info("Creating workbook...")
         create_workbook(workbook_data, output_file, log_data)
         logging.info(f"Data saved to {output_file}")

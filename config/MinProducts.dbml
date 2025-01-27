@@ -1,0 +1,668 @@
+Table Standard.Pricebook2 {
+
+  Id id [not null]
+  Name string [not null]
+  IsActive boolean [not null]
+  IsArchived boolean [not null]
+  IsStandard boolean [not null]
+  s_c__Add_To_Cart_Text__c string [note: 'Text to be displayed on Add to Cart buttons for Products. Can be overridden for individual Products with PriceBookEntry.s_c__Add_To_Cart_Text__c. If blank, the text Add to Cart will be used']
+  s_c__Buy_It_Now_Text__c string [note: 'Text to be displayed on Buy It Now buttons for Products. Can be overridden for individual Products with PriceBookEntry.s_c__Buy_It_Now_Text__c. If blank, the text Buy it Now will be used']
+  s_c__Default_Earn_Rate__c double [note: 'The default conversion rate for earning points from purchases']
+  s_c__Default_Purchase_Rate__c double [note: 'The default conversion rate for when purchasing using points']
+  s_c__Hide_Price_Text__c string [note: 'Text to be displayed in place of the price on Products where PriceBookEntry.s_c__Hide_Price__c is enabled. Can be overridden for individual Products with PriceBookEntry.s_c__Hide_Price_Text__c. If blank "POA" will be used']
+  s_c__Order_Quantity_Maximum__c double [note: 'The maximum quantity of any individual Product which can be added to a single Order. Products that track inventory will use either this or the current stock availability as the limit (whichever is lower). Can be overridden for individual Products with PriceBookEntry.s_c__Order_Quantity_Maximum__c. If left blank then stock availability is used as the limit (or no limit if the Product is backorderable)']
+  s_c__Out_Of_Stock_Text__c string [note: 'Text to be displayed if the Product is out of stock (for Products that track stock). Can be overridden for individual Products with PriceBookEntry.s_c__Out_Of_Stock_Text__c. If blank Out of Stock will be shown']
+  s_c__Unavailable_Text__c string [note: 'Text to be displayed in place of the price when a Product is not available to purchase (e.g. is discontinued). If blank, "Unavailable" will be shown']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+
+Table Standard.PricebookEntry {
+
+  Id id [not null]
+  Pricebook2Id id [ref: > Standard.Pricebook2.Id, not null]
+  Product2Id id [ref: > Standard.Product2.Id, not null]
+  UnitPrice currency [not null]
+  IsActive boolean [not null]
+  UseStandardPrice boolean [not null]
+  IsArchived boolean [not null]
+  s_c__Add_To_Cart_Text__c string [note: 'Text to be displayed on the Add to Cart buttons for the Product. If blank, the `Pricebook2.Add_To_Cart_Text__c` field will be used']
+  s_c__Balloon_Price__c currency [note: 'If set this will be used as the amount that will be billed at the end of the subscription term.']
+  s_c__Buy_It_Now_Text__c string [note: 'Text to be displayed on the Buy it Now buttons for the Product. If blank, the `Pricebook2.Buy_It_Now_Text__c` field will be used']
+  s_c__Can_Earn_Points__c boolean [not null, note: 'If checked, customers can earn points by purchasing this product']
+  s_c__Can_Purchase_With_Currency__c boolean [not null, note: 'If checked, customers can use currency to purchase this product']
+  s_c__Can_Purchase_With_Points__c boolean [not null, note: 'If checked, customers can use points to purchase this product']
+  s_c__Deposit_Amount__c currency [note: 'If set the user will be charged this amount as a deposit during checkout']
+  s_c__Deposit_Points__c double [note: 'If set the user will be charged this amount of points as a deposit during checkout']
+  s_c__Disable_Quantity_Selection__c boolean [not null, note: 'Prevents users from editing the quantity when purchasing this Product. If enabled, s_c__Order_Quantity_Maximum__c (either on this PriceBookEntry or its related PriceBook) must be set as it is used as the quantity when a customer purchases the Product']
+  s_c__Display_If_Restricted__c boolean [not null]
+  s_c__Earn_Points_Bonus__c double [note: 'The amount of bonus points earned by purchasing this product. Bonus points are earned on top of any other points earned, if any']
+  s_c__Earn_Points__c double [note: 'The amount of points earned by purchasing this product. If blank and Can Earn Points is true, the Price Books Default Earn Rate will be used to calculate the number of points earned']
+  s_c__Enable_Variable_Pricing__c boolean [not null, note: 'Allow the customer to choose how much they would like to pay (e.g. for donations). The minimum price allowed is the Price or s_c__Sale_Price__c']
+  s_c__Hide_Price_Text__c string [note: 'Text to be displayed in place of the price for the Products when s_c__Hide_Price__c is true. If blank the `Pricebook2.Hide_Price_Text__c` field will be used']
+  s_c__Hide_Price__c boolean [not null, note: 'If enabled the Product will show s_c__Hide_Price_Text__c in place of a price, for example to show "Price on Application"']
+  s_c__Minimum_Sell_Price__c currency [note: 'If set this will be used as the minimum possible discounted price for this Product on StoreConnect POS. If blank the Product2.Minimum_Sell_Price field is used']
+  s_c__Order_Quantity_Maximum__c double [note: 'The maximum quantity of any individual Product which can be added to a single Order. Products that track inventory will use either this or the current stock availability as the limit (whichever is lower). If blank the value in PriceBook.s_c__Order_Quantity_Maximum__c will be used']
+  s_c__Out_Of_Stock_Text__c string [note: 'Text to be displayed if the Product is out of stock. If blank the Pricebook.s_c__Out_Of_Stock_Text__c field will be used']
+  s_c__Percentage__c percent [note: 'The percentage value to add to an order total (after taxes and shipping) using this payment method.']
+  s_c__Purchase_Points_Sale__c double [note: 'If set this will be used as the points price required to purchase this product']
+  s_c__Purchase_Points__c double [note: 'The amount of points required to purchase this product. If blank and Can Purchase With Points is true, the Price Books Default Purchase Rate will be used to calculate the number of points required']
+  s_c__Restricted_Text__c string
+  s_c__Restricted__c boolean [not null]
+  s_c__Sale_Price__c currency [note: 'If set this will be used as the amount users will be charged for the Product. If blank the Price field is used']
+  s_c__Setup_Price__c currency [note: 'If set this will be used as the amount that will be billed at the start of the subscription term.']
+  s_c__Variable_Pricing_Options__c PricebookEntry.s_c__Variable_Pricing_Options__c_multipicklist [note: 'The allowed prices if s_c__Enable_Variable_Pricing__c is enabled. Selecting "Other" allows the user to enter any amount as long as its higher than Price. Custom names should be in cents (e.g. 5000 for $50)']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+  Enum PricebookEntry.s_c__Variable_Pricing_Options__c_multipicklist {
+      "100000"
+      "1000000"
+      "10000"
+      "250000"
+      "25000"
+      "500000"
+      "5000"
+      "50000"
+      "other"
+  }  
+
+
+
+Table Standard.Product2 [note: "WHERE s_c__Slug__c NOT IN ('storeconnect-shipping','storeconnect-promotion','storeconnect-cash-rounding','storeconnect-tipping')"] {
+
+  Id id [not null]
+  Name string [not null]
+  IsActive boolean [not null]
+  IsArchived boolean [not null]
+  s_c__Allow_Prepurchase__c boolean [not null, note: '[Future Use] If checked, this Product will be purchasable before the Available_On__c date']
+  s_c__Available_On__c datetime [note: 'The date from which this Product is available for purchase']
+  s_c__Barcode__c string [unique, note: 'Unique barcode for this Product']
+  s_c__Booking_Duration__c double [note: 'The number of minutes this booking product lasts']
+  s_c__Booking_End_Buffer__c double [note: 'The number of minutes required to be unbooked after each booking']
+  s_c__Booking_Max_Attendees__c double [note: 'The maximum number of attendees that can attend a single booking of this product. i.e. If a booking is for a table for up to five people, you would set is to `5`']
+  s_c__Booking_Require_Attendee_Details__c boolean [not null, note: 'If enabled, the customer will be asked to provide the booking attendee details on the order summary page']
+  s_c__Booking_Start_Buffer__c double [note: 'The number of minutes required to be unbooked before each booking']
+  s_c__Brand_Id__c id [note: 'The Products brand as an associated Account tagged as Is Brand']
+  s_c__Charge_Subscription__c boolean [not null, note: 'If a Subscription Product, the system will process the subscription each period']
+  s_c__Condition__c Product2.s_c__Condition__c_picklist [note: 'The Condition of this Product, this is used in the merchant feed']
+  s_c__Cost_Price__c currency [note: 'The cost price for this Product. This is only used for reporting purposes']
+  s_c__Discontinue_On__c datetime [note: 'The date from which this Product will no longer be available in the store']
+  s_c__Display_Name__c string [note: 'The title of the Product to use in the store. If this is blank the Product.Name field will be used']
+  s_c__Downloads_Markdown__c textarea [note: 'Downloads for the product, this could be firmware, device drivers, documents etc. You can use Markdown to format your text and Liquid']
+  s_c__Features_Markdown__c textarea [note: 'Features of the Product, this can include images or videos etc. You can use Markdown to format your text and Liquid']
+  s_c__Has_Serial_Number__c boolean [not null, note: 'If enabled the system will allow entering a serial number when the Product is sold through StoreConnects POS system']
+  s_c__Hs_Code__c string [note: 'Defines the Harmonized System (HS) code for this Product']
+  s_c__Import_ID__c string [unique, note: 'Unique External ID that can be used when synchronising this Product with an external system']
+  s_c__Is_Master__c boolean [not null, note: 'Set to true if this Product has variants or is a stand-alone product']
+  s_c__Is_Voucher__c boolean [not null, note: 'Indicates the Product is for a Voucher.']
+  s_c__Media_Upload__c string [note: 'Link to upload Media for this Product']
+  s_c__Meta_Description__c textarea [note: 'The content that appears within the meta description tag in the HEAD tag of the Product page']
+  s_c__Meta_Keywords__c string [note: 'The content that appears within the meta keywords tag in the HEAD tag of the Product page']
+  s_c__Meta_Title__c string [note: 'The content that appears within the meta title tag in the HEAD tag of the Product page']
+  s_c__Minimum_Sell_Price__c currency [note: 'If set this will be used as the minimum possible discounted price for this Product on StoreConnect POS. If blank there is no minimum price. Can be overridden by PriceBookEntry.Minimum_Sell_Price']
+  s_c__Placeholder_For_Id__c id [ref: > Standard.Product2.Id, note: 'Defines another Product to be displayed instead of this one when this product is Restricted']
+  s_c__Position__c double [note: 'The position of this Product. Lower numbers are shown first, records without a number are sorted alphabetically by Name']
+  s_c__Product_Trait_Template_Id__c id [ref: > StoreConnect.s_c__Product_Trait_Template__c.Id, note: 'The Product_Trait_Template__c which should apply to this Product']
+  s_c__Promotionable__c boolean [not null, note: '[Future Use] This field is not currently in use. It is slated for use in future development.']
+  s_c__Require_Deposit__c boolean [not null, note: 'If checked, this Product will charge a deposit checkout, rather than full price']
+  s_c__Search_Description_Markdown__c textarea [note: 'Provides a Search Description for your product page. Use Markdown or HTML to format your text.']
+  s_c__Shipping_Dangerous_Goods__c boolean [not null, note: '[Future User] If checked, shows that the Product is considered as a dangerous good']
+  s_c__Shipping_Dimensions_Unit__c Product2.s_c__Shipping_Dimensions_Unit__c_picklist [note: 'The unit of mearure of all shipping dimensions of this Product']
+  s_c__Shipping_Height__c double [note: 'The height of the shipping packaging of this Product']
+  s_c__Shipping_Length__c double [note: 'The length of the shipping packaging of this Product']
+  s_c__Shipping_Methods__c Product2.s_c__Shipping_Methods__c_multipicklist [note: 'The shipping methods allowed for this Product']
+  s_c__Shipping_Packaging_Type__c Product2.s_c__Shipping_Packaging_Type__c_picklist [note: 'The packaging type (code) used for shipping this Product with the Shipping_Provider__c']
+  s_c__Shipping_Weight_Unit__c Product2.s_c__Shipping_Weight_Unit__c_picklist [note: 'The unit of measure for this Products Shipping_Weight__c']
+  s_c__Shipping_Weight__c double [note: 'The weight of the shipping packaging of this Product']
+  s_c__Shipping_Width__c double [note: 'The width of the shipping packaging of this Product']
+  s_c__Slug__c string [unique, note: 'The unique slug which will be used to form this Products URL in the store']
+  s_c__Social_Image_Id__c id [ref: > StoreConnect.s_c__Media__c.Id, note: 'The Image to show when the Product is shared on Social Media. If not provided, will use the Products first image']
+  s_c__Specifications_Markdown__c textarea [note: 'The specifications of the Product, this will appear before any traits. You can use Markdown to format your text and Liquid']
+  s_c__Subscription_Billing_Delay_Length__c double [note: 'Number of Billing Delay Units after the subscriptions Renewal Date to delay before charging the subscription amount. Allows you time to adjust subscription price and other details each term']
+  s_c__Subscription_Billing_Delay_Unit__c Product2.s_c__Subscription_Billing_Delay_Unit__c_picklist [note: 'The unit of measure of the Subscription Billing Delay']
+  s_c__Subscription_Pricing__c Product2.s_c__Subscription_Pricing__c_picklist [note: 'The pricing method used if this is a subscription Product. Currently only Fixed Price is supported']
+  s_c__Subscription_Term_Count__c double [note: 'The number of full terms that this subscription will be processed if it is a One-time subscription. Term length is set by Subscription Term and Subscription Term Unit. A subscription that is processed monthly for one year will have 12 terms']
+  s_c__Subscription_Term_Unit__c Product2.s_c__Subscription_Term_Unit__c_picklist [note: 'The unit of measure of the Subscription Term. All Subscription Products in the organisation must use the same unit']
+  s_c__Subscription_Term__c double [note: 'The term of this subscription. Units are set by Subscription Term Unit. If Subscription Term Unit is Month, 3 would mean this subscription is to be processed every 3 months']
+  s_c__Subscription_Type__c Product2.s_c__Subscription_Type__c_picklist [note: 'Evergreen runs each term with no end date. One-time runs each term for a number of terms (Subscription Term Count) then ends']
+  s_c__Summary_Markdown__c textarea [note: 'Short summary for the product usually appearing near the price. You can use Markdown to format your text and Liquid']
+  s_c__Supplier_Code__c string [unique, note: 'The Suppliers Internal Code for this Product']
+  s_c__Support_Markdown__c textarea [note: 'How to get support for the product and what support is available. You can use Markdown to format your text and Liquid']
+  s_c__Sync_To_Google__c boolean [not null, note: 'If enabled, this Product will be included in the Merchant Feeds']
+  s_c__Tax_Category_Code__c Product2.s_c__Tax_Category_Code__c_picklist
+  s_c__Tax_Code__c string [note: 'Defines tax code for this product. Primarily set for third party tax services']
+  s_c__Track_Inventory__c boolean [not null, note: 'If enabled the system will track the inventory levels of this Product']
+  s_c__UPC__c string [unique, note: 'This is the UPC, EAN etc']
+  s_c__Variant_Title__c string [note: 'This is the title of a variant Product. For example a Product "Bike" might have a "Red Small" variant.']
+  s_c__Virtual__c boolean [not null, note: 'Indicates the Product is not a physical product that requires Shipping']
+  s_c__Voucher_Email_Template__c string [note: 'Enter the API name for the email template to use when sending a Voucher']
+  s_c__Voucher_Usage__c Product2.s_c__Voucher_Usage__c_picklist [note: 'Indicates whether the Voucher can be used on other Stores.']
+  s_c__Warranty_Markdown__c textarea [note: 'The warranty you supply with the Product. You can use Markdown to format your text and Liquid']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+  s_c__Preview_On_Site__c string [note: 'Link to website page for this Product so you can see what it looks like with the current configuration']
+  s_c__Subscription_Behavior__c Product2.s_c__Subscription_Behavior__c_picklist [note: 'The Subscription Behavior of this Product, which is used to control how the subscription is processed and charged']
+  Page_Product__c boolean [not null, note: 'Used to trigger a link between Order Item and Page through check-out']
+  s_c__Search_Keywords__c textarea [note: 'Line-separated list of keywords to improve relevance in product search results']
+}
+
+  Enum Product2.s_c__Condition__c_picklist {
+      "new"
+      "refurbished"
+      "used"
+  }
+  Enum Product2.s_c__Shipping_Dimensions_Unit__c_picklist {
+      "millimetre"
+      "centimetre"
+      "metre"
+      "kilometre"
+      "inch"
+      "foot"
+      "yard"
+      "mile"
+  }
+  Enum Product2.s_c__Shipping_Methods__c_multipicklist {
+      "pick_up"
+      "Regular Post"
+      "Express Post"
+      "International"
+  }
+  Enum Product2.s_c__Shipping_Packaging_Type__c_picklist {
+      "envelope"
+      "item"
+      "bag"
+      "satchel"
+      "padded_bag"
+      "carton"
+      "pallet"
+  }
+  Enum Product2.s_c__Shipping_Weight_Unit__c_picklist {
+      "gram"
+      "kilogram"
+      "metric ton"
+      "ounce"
+      "pound"
+      "short ton"
+  }
+  Enum Product2.s_c__Subscription_Billing_Delay_Unit__c_picklist {
+      "day"
+      "month"
+  }
+  Enum Product2.s_c__Subscription_Pricing__c_picklist {
+      "fixed_price"
+  }
+  Enum Product2.s_c__Subscription_Term_Unit__c_picklist {
+      "day"
+      "month"
+  }
+  Enum Product2.s_c__Subscription_Type__c_picklist {
+      "Evergreen"
+      "One-time"
+  }
+  Enum Product2.s_c__Tax_Category_Code__c_picklist {
+      "None"
+      "AU"
+  }
+  Enum Product2.s_c__Voucher_Usage__c_picklist {
+      "store"
+      "store_group"
+      "any_store"
+  }
+  Enum Product2.s_c__Subscription_Behavior__c_picklist {
+      "always_process_always_charge"
+      "always_process_charge_if_possible"
+      "always_process_charge_first"
+      "always_process_never_charge"
+      "never_process_charge_if_possible"
+      "never_process_never_charge"
+  }
+
+
+
+Table StoreConnect.s_c__Products_Product_Categories__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Active__c boolean [not null, note: 'Determines whether the related Product is active on the related Product Category']
+  s_c__Category_Id__c id [ref: > StoreConnect.s_c__Product_Category__c.Id, not null, note: 'A Lookup to the Category related to the given Product']
+  s_c__Position__c double [note: 'The position of this Product in relation to all Products in this Category. Lower numbers are shown first']
+  s_c__Primary__c boolean [not null, note: 'Determines whether the Category is the Primary Category for the given Product']
+  s_c__Product_Id__c id [ref: > Standard.Product2.Id]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+  s_c__Category_Name__c string [note: 'Formula field that displays the Category name for related lists']
+  s_c__Product_Name__c string [note: 'Formula field that displays the Product name for related lists']
+  s_c__Taxonomy_Name__c string [note: 'Formula field that displays the Taxonomy name for related lists']
+}
+
+
+Table StoreConnect.s_c__Product_Category__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Child_Count__c double [note: 'This is updated automatically to show the number of product categorys that belong to this product category']
+  s_c__Display_Name__c string [note: 'Used in auto generated navigation bars and breadcrumbs instead of Name if present']
+  s_c__Google_Product_Category__c string [note: 'The Google Product Category for this category. Ensure the category number is at the start of the field, such as "2 - Animals & Pet Supplies > Pet Supplies"']
+  s_c__Hide__c boolean [not null, note: 'Hide this category from showing in the navigation bar']
+  s_c__Import_ID__c string
+  s_c__Information_Markdown__c textarea [note: 'Information to display after all the products of a category page. Use Markdown or HTML to format your text.']
+  s_c__Introduction_Markdown__c textarea [note: 'Information to display before all the products on a category page. Use Markdown or HTML to format your text.']
+  s_c__Media_Id__c id [ref: > StoreConnect.s_c__Media__c.Id, note: 'The image to use for the category when featured']
+  s_c__Meta_Description__c textarea [note: 'The content that appears within the meta description tag in the HEAD tag of the page']
+  s_c__Meta_Keywords__c string [note: 'The content that appears within the meta keywords tag in the HEAD tag of the page']
+  s_c__Meta_Title__c string [note: 'The content that appears within the meta title tag in the HEAD tag of the page']
+  s_c__Parent_Count__c double [note: 'This is updated automatically to show the number of product categorys that this product category belongs to.']
+  s_c__Path__c string [note: 'Specifies the relative path where the category will be accessible in the store']
+  s_c__Position__c double
+  s_c__Product_Id__c id [ref: > Standard.Product2.Id, note: 'The primary / featured product for the category']
+  s_c__Slug__c string [unique, note: '[Deprecated] Please use Path instead']
+  s_c__Social_Image_Id__c id [ref: > StoreConnect.s_c__Media__c.Id, note: 'The Image to show when the Category is shared on Social Media. If not provided, will use the Categorys first image']
+  s_c__Subtitle__c string [note: 'Appears at the top of the category page under the title.']
+  s_c__Taxonomy_Id__c id [ref: > StoreConnect.s_c__Taxonomy__c.Id, not null]
+  s_c__Title__c string [note: 'Appears at the top of the category page in place of the name if defined.']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+Table StoreConnect.s_c__Taxonomy__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Position__c double [note: 'Lowers numbers are show first, otherwise sorted alphabetically by Name']
+  s_c__Store_Id__c id [ref: > StoreConnect.s_c__Store__c.Id, not null]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+
+Table StoreConnect.s_c__Media__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Alt_Text__c string [note: 'The alternate text supplied for this media item, used by SEO to say what the media object is']
+  s_c__Description__c textarea [note: 'Internal description of this media item']
+  s_c__Embed_Video_Url__c string [note: '[Deprecated] Use Url__c instead for populating video urls or use the video snippet in liquid']
+  s_c__File_Type__c s_c__Media__c.s_c__File_Type__c_picklist [not null]
+  s_c__File__c textarea [note: '[Deprecated] See Url__c instead']
+  s_c__Identifier__c string [unique, note: 'The identifier is used for the front end of your store  to identify this media object within the pages in special cases']
+  s_c__Import_Url__c string [note: 'Allows media files to be uploaded directly from URL']
+  s_c__Key_Frame_Seconds__c double [note: 'This determines what frame will be used as preview image given video url']
+  s_c__Large_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
+  s_c__Medium_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
+  s_c__Original_Image__c url [note: '[Deprecated] See Url__c instead']
+  s_c__Processed_At__c datetime
+  s_c__Started_At__c datetime
+  s_c__Thumbnail_Image__c url [note: '[Deprecated] Image sizes are automatically generated']
+  s_c__Url__c url [note: 'URL of the media uploaded']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+  s_c__Image_Preview__c string
+}
+
+  Enum s_c__Media__c.s_c__File_Type__c_picklist {
+      "image"
+      "video"
+      "document"
+      "file"
+      "url"
+  }
+
+
+
+Table StoreConnect.s_c__Product_Media__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Media_Id__c id [ref: > StoreConnect.s_c__Media__c.Id, not null]
+  s_c__Category__c s_c__Product_Media__c.s_c__Category__c_picklist
+  s_c__Position__c double [note: 'Lower numbers are shown first, records without numbers are sorted alphabetically by name.']
+  s_c__Product_Id__c id [ref: > Standard.Product2.Id]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key     connection used within your webstore.']
+  s_c__Thumbnail_Preview__c string
+}
+
+  Enum s_c__Product_Media__c.s_c__Category__c_picklist {
+      "manuals"
+  }
+
+
+
+Table StoreConnect.s_c__Product_Variant__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Master_Product_Id__c id [ref: > Standard.Product2.Id, note: 'The master product the variant is grouped under']
+  s_c__Position__c double [note: 'The position of the value in relation to other values for this variant type']
+  s_c__Variant_Label__c string [note: 'The UI selector text, such as Red, Green, Blue, Small, Medium or Large etc. if different from Variant Value']
+  s_c__Variant_Product_Id__c id [ref: > Standard.Product2.Id, note: 'The product represented by this variant option']
+  s_c__Variant_Type__c s_c__Product_Variant__c.s_c__Variant_Type__c_picklist [not null, note: 'The variants grouping type. i.e. Size, Colour etc.']
+  s_c__Variant_Value__c string [not null, note: 'The underlying value of the variant, such as Red or #FF0000, Small or SML']
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+  Enum s_c__Product_Variant__c.s_c__Variant_Type__c_picklist {
+      "option"
+      "capacity"
+      "colour"
+      "length"
+      "size"
+      "version"
+      "weight"
+      "Flavour"
+      "Plan"
+      "Recurrence"
+      "Membership"
+  }
+
+Table StoreConnect.s_c__Product_Trait_Template__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+Table StoreConnect.s_c__Product_Trait_Template_Item__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Product_Trait_Template_Id__c id [ref: > StoreConnect.s_c__Product_Trait_Template__c.Id]
+  s_c__Trait_Category_Id__c id [ref: > StoreConnect.s_c__Trait_Category__c.Id]
+  s_c__Trait_Type_Id__c id [ref: > StoreConnect.s_c__Trait_Type__c.Id]
+  s_c__Trait_Value_Id__c id [ref: > StoreConnect.s_c__Trait_Value__c.Id]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+Table StoreConnect.s_c__Trait_Category__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Display_As_Filter_Top_Level__c boolean [not null, note: 'If true, display each related trait type as a top-level filter in product search, with trait values as options. If false, display trait category as a top-level filter in product search, with trait types as options.']
+  s_c__Display_Name__c string [not null]
+  s_c__Position__c double
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+
+Table StoreConnect.s_c__Trait_Type__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Display_As_Filter__c boolean [not null]
+  s_c__Display_Name__c string [not null]
+  s_c__Display_On_Product_Page__c boolean [not null]
+  s_c__Position__c double
+  s_c__Trait_Category_Id__c id [ref: > StoreConnect.s_c__Trait_Category__c.Id, not null]
+  s_c__Unit__c s_c__Trait_Type__c.s_c__Unit__c_picklist [note: 'The unit of this Trait Type to aid in display on the website']
+  s_c__Value_Type__c s_c__Trait_Type__c.s_c__Value_Type__c_picklist [not null]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+  Enum s_c__Trait_Type__c.s_c__Unit__c_picklist {
+      "millimetre"
+      "centimetre"
+      "metre"
+      "kilometre"
+      "gram"
+      "kilogram"
+      "metric ton"
+      "millilitre"
+      "litre"
+      "inch"
+      "foot"
+      "yard"
+      "mile"
+      "ounce"
+      "pound"
+      "short ton"
+      "teaspoon"
+      "tablespoon"
+      "cup"
+      "fluid ounce"
+      "quart"
+      "gallon"
+      "millisecond"
+      "second"
+      "hour"
+      "day"
+      "week"
+      "month"
+      "year"
+      "kilojoules"
+      "calories"
+      "colour"
+      "rgb code"
+      "hsv code"
+  }
+  Enum s_c__Trait_Type__c.s_c__Value_Type__c_picklist {
+      "Text"
+      "Number"
+      "Decimal"
+      "Currency"
+      "Percent"
+      "Checkbox"
+      "Date"
+      "Email"
+      "URL"
+      "Long Text Area Markdown"
+  }
+
+
+
+Table StoreConnect.s_c__Trait_Value__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Checkbox__c boolean [not null]
+  s_c__Currency__c currency
+  s_c__Date__c date
+  s_c__Decimal__c double
+  s_c__Display_Name__c string [not null]
+  s_c__Email__c email
+  s_c__Long_Text_Area_Markdown__c textarea [note: 'Use Markdown or HTML to format your text.']
+  s_c__Number__c double
+  s_c__Percent__c percent
+  s_c__Text__c string
+  s_c__Trait_Type_Id__c id [ref: > StoreConnect.s_c__Trait_Type__c.Id, not null]
+  s_c__URL__c url
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+Table StoreConnect.s_c__Trait__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Description__c textarea
+  s_c__Display_Name__c string [not null]
+  s_c__Product_Id__c id [ref: > Standard.Product2.Id]
+  s_c__Trait_Category_Id__c id [ref: > StoreConnect.s_c__Trait_Category__c.Id, not null]
+  s_c__Trait_Type_Id__c id [ref: > StoreConnect.s_c__Trait_Type__c.Id, not null]
+  s_c__Trait_Value_Id__c id [ref: > StoreConnect.s_c__Trait_Value__c.Id, not null]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+Table StoreConnect.s_c__Stock_Level__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Stock_Location_Id__c id [ref: > StoreConnect.s_c__Stock_Location__c.Id, not null]
+  s_c__Available_To_Sell__c double [note: 'How many units are available to sell']
+  s_c__Backorderable__c boolean [not null, note: 'Allow your customers to keep ordering this item if available to sell is less than one']
+  s_c__Change_Quantity__c double [note: 'Add/Subtract the provided amount on this field to the count on hand.']
+  s_c__Count_On_Hand__c double [note: 'How many units of this item are physically at the location (includes units picked but not shipped)']
+  s_c__Fulfill_Online_Orders__c boolean [not null, note: 'Enable to allow this stock level to be used for online ordering from your webstore.']
+  s_c__Hide_From_Search__c boolean [not null, note: 'Hide this stock level from the search results']
+  s_c__Last_Inventory_Count__c double [note: 'How many items were there at the Last Inventory date']
+  s_c__Last_Inventory_Date__c date [note: 'What was the Last Inventory stock take']
+  s_c__Minimum_Stock_Reorder_Level__c double [note: 'Defines the desired amount of stock that should be kept on hand at all times']
+  s_c__Out_Of_Stock_Level__c double [note: 'The stock level at which the item is considered as out of stock within the online store']
+  s_c__Priority__c boolean [not null, note: 'When enabled, orders for this product will be fullfilled from this location first. Enabling this will disable any other location from being the priority for this product.']
+  s_c__Product_Id__c id [ref: > Standard.Product2.Id]
+  s_c__Set_Quantity__c double [note: 'Set the count on hand to the number specified on this field.']
+  s_c__Unique_Product_Stock_Location__c string [unique]
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+
+
+Table StoreConnect.s_c__Stock_Location__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Active__c boolean [not null]
+  s_c__Address1__c string
+  s_c__Address2__c string
+  s_c__Backorderable_Default__c boolean [not null, note: 'Is this stock location able to sell products with no available stock by default for new stock levels?']
+  s_c__City__c string
+  s_c__Click_And_Collect_Allowed__c boolean [not null, note: '[DEPRECATED] Use Online_Fulfillment_Options__c instead']
+  s_c__Country_Id__c id
+  s_c__Days_To_Restock__c double [note: 'How many days it will take to restock this location from another location so a customer can collect their order?']
+  s_c__Default__c boolean [not null]
+  s_c__Display_Name__c string
+  s_c__Fulfill_Online_Orders__c boolean [not null, note: '[DEPRECATED] Use Online_Fulfillment_Options__c instead']
+  s_c__Geolocation__Latitude__s double
+  s_c__Geolocation__Longitude__s double
+  s_c__Geolocation__c location
+  s_c__Hide_From_Search__c boolean [not null, note: 'Does this stock location hide its stock from the store by default for new stock levels?']
+  s_c__Media_Id__c id [ref: > StoreConnect.s_c__Media__c.Id]
+  s_c__Online_Fulfillment_Options__c s_c__Stock_Location__c.s_c__Online_Fulfillment_Options__c_picklist [note: 'Determines how the stock location behaves for online orders']
+  s_c__Phone__c phone
+  s_c__Priority__c boolean [not null, note: 'Is this stock location the priority location to ship from by default for new stock levels? Only one stock location can have this set as TRUE.']
+  s_c__Propagate_All_Variants__c boolean [not null, note: 'Will create a stock level at this stock location for any new product. Will also create one for an edited product if one doesnt already exist.']
+  s_c__Require_Stock_For_Pickup__c boolean [not null, note: 'Requires stock to be available at this location for click and collect to be offered at checkout.']
+  s_c__State__c string
+  s_c__Stock_Import_Filename__c string
+  s_c__Stock_Import_Id__c string
+  s_c__Stock_Import_Last_Completed_At__c datetime
+  s_c__Stock_Import_Last_Started_At__c datetime
+  s_c__Website__c string
+  s_c__Zip_Code__c string
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+  Enum s_c__Stock_Location__c.s_c__Online_Fulfillment_Options__c_picklist {
+      "no_online_fulfillment"
+      "shipping_only"
+      "click_and_collect_only"
+      "shipping_with_click_and_collect"
+  }
+
+
+
+Table StoreConnect.s_c__Store_Stock_Location__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Priority__c double [note: 'The priority for this stock location to fullfill orders, highest priority first, blank priority last.']
+  s_c__Stock_Location_Id__c id [ref: > StoreConnect.s_c__Stock_Location__c.Id, not null, note: 'The Stock_Location record associated with this Store_Stock_Location']
+  s_c__Store_Id__c id [ref: > StoreConnect.s_c__Store__c.Id, not null, note: 'The Stock record associated with this Store_Stock_Location']
+}
+
+
+
+Table StoreConnect.s_c__Store__c {
+
+  Id id [not null]
+  Name string [not null]
+  s_c__Activate_Points_At_Order_Status__c textarea [note: 'The Order Status at which any points earned from a purchase should be activated. Only activated points can be used for further purchases']
+  s_c__Booking_Hold_Duration__c double [note: 'The number of minutes that bookable Products will be held after being added to the cart']
+  s_c__Cache_Version__c string [note: 'Change this field to invalidate the cache within your store.']
+  s_c__Calculate_Stock_By__c s_c__Store__c.s_c__Calculate_Stock_By__c_picklist [note: 'Used in conjunction with stock level recalculation process to trigger and calculate stock level Count on Hand and Available to Sell']
+  s_c__Cash_Rounding_Rule__c s_c__Store__c.s_c__Cash_Rounding_Rule__c_picklist [note: 'The method to use when rounding cash payments on POS']
+  s_c__Cash_Rounding_Unit__c currency [note: 'If set cash payments will be rounded to this unit on POS']
+  s_c__Category_Placeholder_Id__c id [ref: > StoreConnect.s_c__Media__c.Id]
+  s_c__Default_Points_Usage__c s_c__Store__c.s_c__Default_Points_Usage__c_picklist [note: 'Indicates whether the Points created for this Store can be used on other Stores by default']
+  s_c__Default__c boolean [not null]
+  s_c__Deliver_Vouchers_At_Order_Status__c string [note: 'The Order Status at which Vouchers should be delivered to the customer']
+  s_c__Deposit_Amount__c currency [note: 'If set the user will be charged this amount as a deposit during checkout']
+  s_c__Deposit_Points__c double [note: 'If set the user will be charged this amount of points as a deposit during checkout']
+  s_c__Disable__c boolean [not null, note: 'Turn this on to disable your store and only show a blank page without a header or footer that will display the optional content block referenced in the Disabled Content Block field.']
+  s_c__Display_Price_In__c s_c__Store__c.s_c__Display_Price_In__c_multipicklist [note: 'Determines what this Stores prices are shown in']
+  s_c__Domain__c url [note: 'The full domain name of your store such as example.com. Do not include https:// or any trailing slashes or path']
+  s_c__Enable_Quotations__c boolean [not null, note: 'This enables or disables Request Quotations feature workflow for products with Hide Price enabled. Also, make sure you enable the Quotation Requested Transactional Email under the Store Related List to send email when quotation is created.']
+  s_c__Locale__c s_c__Store__c.s_c__Locale__c_picklist [note: 'The locale for this Store']
+  s_c__POS_Order_Types__c string [note: 'A list of Order types that can be created for this Store on POS devices, separated by semicolons']
+  s_c__Pay_By_Account_Enabled__c boolean [not null, note: 'Enables or disables the "Pay by Account" payment option for this store.']
+  s_c__Points_Earned_With_Points_Ratio__c percent [note: 'Defines the ratio to apply to any points earned when the purchase was made with points. A ratio of 100 means all points are earned, whereas a ratio of 0 means no points are earned']
+  s_c__Points_Expiry_Length__c double [note: 'Number of Points Expiry Units that will be used to calculate the default expiry date on Points. Leave blank for no expiry']
+  s_c__Points_Expiry_Unit__c s_c__Store__c.s_c__Points_Expiry_Unit__c_picklist [note: 'The unit of measure for the Points_Expiry_Length__c for the Points expiry date. Leave blank for no expiry.']
+  s_c__Pricebook_Id__c id [ref: > Standard.Pricebook2.Id]
+  s_c__Product_Label_Downloads__c string [note: 'This is the name of the Downloads section on your product page']
+  s_c__Product_Label_Features__c string [note: 'This is the name of the Features section on your product page']
+  s_c__Product_Label_Specifications__c string [note: 'This is the name of the Specifications section on your product page']
+  s_c__Product_Label_Support__c string [note: 'This is the name of the Support section on your product page']
+  s_c__Product_Label_Warranty__c string [note: 'This is the name of the Warranty section on your product page']
+  s_c__Product_Placeholder_Id__c id [ref: > StoreConnect.s_c__Media__c.Id]
+  s_c__Shipping_Enabled__c boolean [not null, note: 'Enables or disables shipping for this store.']
+  s_c__Tax_Inclusive__c boolean [not null, note: 'Tick this checkbox if your product price are tax inclusive. Otherwise, untick this checkbox so that tax is added over the product price when order is being created.']
+  s_c__Tax_Provider_Id__c id 
+  s_c__Terms_Page_Id__c id 
+  s_c__Theme_Id__c id
+  s_c__Unique_Domain_Path__c string [unique]
+  s_c__Voucher_Expiry_Length__c double [note: 'Number of Voucher Expiry Units that will be used to calculate the default expiry date on Vouchers. Leave blank for no expiry']
+  s_c__Voucher_Expiry_Unit__c s_c__Store__c.s_c__Voucher_Expiry_Unit__c_picklist [note: 'The unit of measure for the Voucher_Expiry_Length__c for the Voucher expiry date. Leave blank for no expiry.']
+  s_c__Zone_Id__c id
+  s_c__sC_Id__c string [unique, note: 'Do not modify this External ID from within Salesforce, it is the foreign key connection used within your webstore.']
+}
+
+  Enum s_c__Store__c.s_c__Calculate_Stock_By__c_picklist {
+      "Inherit from Org"
+      "Order Status"
+      "Shipment Status"
+      "None"
+  }
+  Enum s_c__Store__c.s_c__Cash_Rounding_Rule__c_picklist {
+      "always_up"
+      "nearest_up"
+      "always_down"
+      "nearest_down"
+  }
+  Enum s_c__Store__c.s_c__Currency__c_picklist {
+      "AUD"
+      "EUR"
+      "USD"
+  }
+  Enum s_c__Store__c.s_c__Default_Points_Usage__c_picklist {
+      "store"
+      "store_group"
+      "any_store"
+  }
+  Enum s_c__Store__c.s_c__Display_Price_In__c_multipicklist {
+      "currency"
+      "points"
+  }
+  Enum s_c__Store__c.s_c__Locale__c_picklist {
+      "en"
+      "zh_CN"
+      "zh_TW"
+      "da"
+      "nl"
+      "fi"
+      "fr"
+      "de"
+      "it"
+      "ja"
+      "ko"
+      "no"
+      "pt_BR"
+      "ru"
+      "es"
+      "es_MX"
+      "sv"
+      "th"
+  }
+  Enum s_c__Store__c.s_c__Points_Expiry_Unit__c_picklist {
+      "month"
+      "week"
+  }
+  Enum s_c__Store__c.s_c__Theme__c_picklist {
+      "clean"
+      "bold"
+  }
+  Enum s_c__Store__c.s_c__Voucher_Expiry_Unit__c_picklist {
+      "month"
+      "week"
+  }

@@ -50,7 +50,7 @@ def create_workbook(data, filename, log_data):
         if records:
             # Flatten records and extract headers, excluding 'attributes' columns
             flattened_records = [flatten_record(record) for record in records]
-            headers = [key for key in flattened_records[0].keys() if key not in ['attributes.type', 'attributes.url']]
+            headers = [key for key in flattened_records[0].keys() if key not in ['attributes.type', 'attributes.url'] and not key.endswith(".attributes")]
             sheet.append(headers)
 
             # Append flattened records

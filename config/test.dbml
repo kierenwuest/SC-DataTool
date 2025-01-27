@@ -1,0 +1,17 @@
+Table Standard.Product2 [note: "WHERE s_c__Slug__c NOT IN ('storeconnect-shipping')"] {
+  Id id [not null]
+  Name string [not null]
+}
+
+Table Standard.PricebookEntry {
+  Id id [not null]
+  Pricebook2Id id [ref: > Standard.Pricebook2.Id, not null]
+  Product2Id id [ref: > Standard.Product2.Id, not null]
+  UnitPrice currency [not null]
+  IsActive boolean [not null]
+}
+
+Table Standard.Pricebook2 {
+  Id id [not null]
+  Name string [not null]
+}

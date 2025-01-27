@@ -21,9 +21,40 @@ def generate_soql_from_dbml(dbml_file_path):
         # Iterate through tables and construct SOQL queries
         for table in dbml.tables:
             object_name = table.name
-            fields = [col.name for col in table.columns]
-            if fields:
-                queries[object_name] = f"SELECT {', '.join(fields)} FROM {object_name}"
+            soql_fields = []
+
+            # Inspect columns to build the field list
+            for col in table.columns:
+                # Always include the field itself
+                soql_fields.append(col.name)
+
+                # Use `get_refs()` to check for relationships
+                refs = col.get_refs()
+                for ref in refs:
+                    # Extract the source field (col1) and target table (table2)
+                    source_field = ref.col1[0].name if ref.col1 and isinstance(ref.col1, list) else None
+                    referenced_table = ref.table2.name if ref.table2 else None
+
+                    if source_field and referenced_table:
+                        if source_field.endswith("__c"):
+                            # Custom relationship field: replace __c with __r
+                            custom_relationship = source_field.replace("__c", "__r")
+                            soql_fields.append(f"{custom_relationship}.Name")
+                        else:
+                            # Standard relationship field
+                            soql_fields.append(f"{referenced_table}.Name")
+
+            # Check for a custom filter in the table's note attribute
+            filter_clause = None
+            if table.note and str(table.note).startswith("WHERE"):
+                filter_clause = str(table.note).strip()
+
+            # Build SOQL query for the table
+            if soql_fields:
+                soql_query = f"SELECT {', '.join(soql_fields)} FROM {object_name}"
+                if filter_clause:
+                    soql_query += f" {filter_clause}"
+                queries[object_name] = soql_query
     
     except Exception as e:
         print(f"Error parsing .dbml file with PyDBML: {e}")
